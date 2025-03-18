@@ -39,7 +39,14 @@ function EmailTable() {
               <tr key={index} className="border-b">
                 <td className="p-2 whitespace-nowrap">{email.remitente}</td>
                 <td className="p-2 whitespace-nowrap">{email.desc}</td>
-                <td className="p-2 text-green-500 font-semibold whitespace-nowrap">{email.estado}</td>
+                <td className={`p-2 font-semibold whitespace-nowrap ${
+                  email.estado === "Verificando..." ? "text-yellow-500" :
+                  email.estado === "Procesado" ? "text-green-500" :
+                  email.estado === "Procesando..." ? "text-orange-500" :
+                  "text-red-500"
+                }`}>
+                  {email.estado}
+              </td>
                 <td className="p-2 whitespace-nowrap">{email.fecha_entrada}</td>
                 <td className="p-2 flex gap-2">
                   <button
