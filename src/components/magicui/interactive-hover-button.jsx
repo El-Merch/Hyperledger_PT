@@ -2,12 +2,21 @@ import React from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 
-export const InteractiveHoverButton = React.forwardRef(({ children, className, ...props }, ref) => {
+export const InteractiveHoverButton = React.forwardRef(({ children, className, size = "md", ...props }, ref) => {
+  // Tamaños personalizados
+  const sizeClasses = {
+    sm: "text-xs p-1 px-4",
+    md: "text-base p-2 px-6",
+    lg: "text-lg p-3 px-8",
+    xl: "text-xl p-4 px-10"
+  };
+
   return (
     <button
       ref={ref}
       className={cn(
-        "group relative w-auto cursor-pointer overflow-hidden rounded-full border bg-background p-2 px-6 text-center font-semibold",
+        "group relative w-auto cursor-pointer overflow-hidden rounded-full border text-center font-semibold",
+        sizeClasses[size],
         className
       )}
       {...props}>

@@ -8,10 +8,10 @@ function Dashboard() {
         <h1 className="text-3xl font-bold">Bienvenido, Francisco</h1>
 
         <div className="mt-4 ml-55 flex space-x-4">
-        <InteractiveHoverButton>Filtro 1</InteractiveHoverButton>
-        <InteractiveHoverButton>Filtro 2</InteractiveHoverButton>
-        <InteractiveHoverButton>Filtro 3</InteractiveHoverButton>
-        <InteractiveHoverButton>Filtro 4</InteractiveHoverButton>
+        <InteractiveHoverButton size="sm">Filtro 1</InteractiveHoverButton>
+        <InteractiveHoverButton size="sm">Filtro 2</InteractiveHoverButton>
+        <InteractiveHoverButton size="sm">Filtro 3</InteractiveHoverButton>
+        <InteractiveHoverButton size="sm">Filtro 4</InteractiveHoverButton>
         </div>
   
         {/* Sección de estadísticas */}
