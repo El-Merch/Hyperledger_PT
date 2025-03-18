@@ -30,8 +30,8 @@ function EmailTable() {
               <th className="p-2 text-gray-600">Remitente</th>
               <th className="p-2 text-gray-600">Descripción</th>
               <th className="p-2 text-gray-600">Status</th>
-              <th className="p-2 text-gray-600">Time</th>
-              <th className="p-2 text-gray-600">Actions</th>
+              <th className="p-2 text-gray-600">Fecha</th>
+              <th className="p-2 text-gray-600">Acciones</th>
             </tr>
           </thead>
           <tbody>
