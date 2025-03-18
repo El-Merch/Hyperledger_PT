@@ -9,14 +9,14 @@ function App() {
     <Router>
       <div className="flex h-screen w-screen bg-gray-100">
         {/* Sidebar con ancho fijo */}
-        <div className="w-64 h-full">
+        <div className="flex min-h-screen bg-gray-100">
           <Sidebar />
         </div>
 
         {/* Contenido principal ocupa todo el espacio restante */}
         <div className="pt-10 min-h-screen w-full bg-gray-100 flex flex-col">
           <Navbar />
-          <main className="flex-1 p-4">
+          <main className="flex-1 p-4 bg-gray-100">
             <Routes>
               <Route path="/" element={<Dashboard />} />
             </Routes>
