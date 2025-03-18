@@ -2,7 +2,7 @@ import { FaSearch, FaBell } from "react-icons/fa";
 
 function Navbar() {
   return (
-    <div className="bg-white shadow p-4 flex justify-between items-center">
+    <div className="bg-white shadow p-4 flex justify-between items-center fixed top-0 left-0 w-full z-20 md:pl-64 transition-all duration-300 pl-24">
       {/* Barra de búsqueda */}
       <div className="flex items-center bg-gray-100 p-2 rounded-lg w-1/3">
         <FaSearch className="text-gray-500" />

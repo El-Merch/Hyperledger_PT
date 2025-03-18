@@ -14,9 +14,9 @@ function App() {
         </div>
 
         {/* Contenido principal ocupa todo el espacio restante */}
-        <div className="flex-1 flex flex-col h-full w-full">
+        <div className="pt-10 min-h-screen w-full bg-gray-100 flex flex-col">
           <Navbar />
-          <main className="flex-1 p-4 w-full h-full">
+          <main className="flex-1 p-4">
             <Routes>
               <Route path="/" element={<Dashboard />} />
             </Routes>

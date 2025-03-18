@@ -15,8 +15,8 @@ function Dashboard() {
         </div>
   
         {/* Sección de estadísticas */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-          <StatCard title="Facturas recibidas" value="789" percentage="100%" icon="📧" color="blue" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4 w-full">
+        <StatCard title="Facturas recibidas" value="789" percentage="100%" icon="📧" color="blue" />
           <StatCard title="Confirmadas" value="671" percentage="100%" icon="🔆" color="orange" />
           <StatCard title="Ingresadas" value="83" percentage="100%" icon="🛒" color="purple" />
         </div>
