@@ -9,9 +9,9 @@ app.use(cors());
 
 // Datos simulados de correos electrónicos
 const emails = [
-  { subject: "Discover our new app features", campaign: "New app launch", status: "Sent", time: "02/03/2024 at 1:35pm", sent: 2183, openRate: "35%" },
-  { subject: "Abandoned cart", campaign: "Automated Email", status: "Sent", time: "02/03/2024 at 1:35pm", sent: 2183, openRate: "35%" },
-  { subject: "Discover our new app features", campaign: "New app launch", status: "Sent", time: "02/03/2024 at 1:35pm", sent: 2183, openRate: "35%" },
+  { remitente: "Semillacun", desc: "ZH, BRO, JM", estado: "Verificando...", fecha_entrada: "02/03/2024 - 1:35pm" },
+  { remitente: "GreenMart", desc: "CHI, PIN, TOM", estado: "Procesado", fecha_entrada: "02/03/2024 - 1:35pm" },
+  { remitente: "ChosenFarm", desc: "ARU, CIL", estado: "No Apto", fecha_entrada: "02/03/2024 - 1:35pm" },
 ];
 
 // Ruta para obtener los emails
