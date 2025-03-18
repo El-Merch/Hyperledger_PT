@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import Modal from "./Modal_view"; // Importa el componente Modal
+import React, { useState, useEffect } from "react";
+import Modal from "./Modal_view"; // Importar el componente Modal
 
 function EmailTable() {
   const [emails, setEmails] = useState([]);
@@ -15,7 +15,7 @@ function EmailTable() {
 
   return (
     <div>
-      {/* Modal Component */}
+      {/* Modal con la Timeline */}
       <Modal 
         isOpen={modalOpen} 
         onClose={() => setModalOpen(false)} 
@@ -44,8 +44,8 @@ function EmailTable() {
                 <td className="p-2 flex gap-2">
                   <button
                     onClick={() => {
-                      setSelectedEmail(email);
-                      setModalOpen(true);
+                      setSelectedEmail(email);  // Asignar el email seleccionado
+                      setModalOpen(true);  // Abrir el modal con la Timeline
                     }} 
                     className="view px-3 py-1 text-black rounded hover:bg-blue-600 transition"
                   >

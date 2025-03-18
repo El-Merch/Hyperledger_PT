@@ -1,5 +1,5 @@
-// src/components/Modal.jsx
 import React from "react";
+import Timeline from "./Timeline"; // Asegúrate de importar el componente Timeline
 
 const Modal = ({ isOpen, onClose, selectedEmail }) => {
   if (!isOpen) return null;
@@ -18,6 +18,10 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
         <p><strong>Descripción:</strong> {selectedEmail.desc}</p>
         <p><strong>Estado:</strong> {selectedEmail.estado}</p>
         <p><strong>Fecha de Entrada:</strong> {selectedEmail.fecha_entrada}</p>
+
+        {/* Agregar la Timeline en el modal */}
+        <h3 className="mt-6 text-lg font-semibold">Línea de Tiempo</h3>
+        <Timeline timeline={selectedEmail.timeline} />
       </div>
     </div>
   );
