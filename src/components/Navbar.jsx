@@ -1,6 +1,9 @@
 import { FaSearch, FaBell } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
+  const { user } = useAuth(); // Obtener el usuario autenticado
+
   return (
     <div className="bg-white shadow p-4 flex justify-between items-center fixed top-0 left-2 w-full z-20 md:pl-64 transition-all duration-300 pl-24">
       {/* Barra de búsqueda */}
@@ -22,7 +25,8 @@ function Navbar() {
             alt="User Avatar"
             className="w-10 h-10 rounded-full"
           />
-          <span className="font-medium text-gray-700">Francisco V.</span>
+          {/* Nombre del usuario autenticado */}
+          <span className="font-medium text-gray-700">{user?.fullName || "Usuario"}</span>
         </div>
       </div>
     </div>
