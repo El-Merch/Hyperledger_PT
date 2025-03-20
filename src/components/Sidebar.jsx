@@ -31,10 +31,6 @@ function Sidebar() {
       >
         <h2 className="text-xl font-bold text-gray-700 mb-6">EcoChain</h2>
         <nav className="flex flex-col space-y-4">
-          <Link to="/" className="flex items-center space-x-3 p-2 hover:bg-gray-200 rounded">
-            <FaTachometerAlt className="text-green-500" />
-            <span>Dashboard</span>
-          </Link>
           <Link to="/campaigns" className="flex items-center space-x-3 p-2 hover:bg-gray-200 rounded">
             <FaEnvelope className="text-green-500" />
             <span>Campaigns</span>
