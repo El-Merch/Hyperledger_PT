@@ -18,17 +18,21 @@ function Navbar() {
 
       {/* Notificaciones y usuario */}
       <div className="flex items-center space-x-4">
-        <FaBell className="text-gray-600 text-xl cursor-pointer" />
-        <div className="flex items-center space-x-2">
-          <img
-            src="https://via.placeholder.com/40"
-            alt="User Avatar"
-            className="w-10 h-10 rounded-full"
-          />
-          {/* Nombre del usuario autenticado */}
-          <span className="font-medium text-gray-700">{user?.fullName || "Usuario"}</span>
-        </div>
-      </div>
+  <FaBell className="text-gray-600 text-xl cursor-pointer" />
+  <div className="flex items-center space-x-2">
+    {/* Nombre del usuario autenticado */}
+    <span className="text-gray-800 font-medium">{user ? user.usuario : "Usuario"}</span>
+    <button 
+      onClick={() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/"; // Redirigir al login después del logout
+      }} 
+      className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+      Cerrar sesión
+    </button>
+  </div>
+</div>
     </div>
   );
 }
