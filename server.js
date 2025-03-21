@@ -87,13 +87,24 @@ app.listen(PORT, () => {
   console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
 });
 
-// 🔹 Obtener lista de emails
+// 🔹 Obtener lista de emails (pedidos)
 app.get("/api/emails", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM pedidos"); // Asegúrate de que la tabla se llama 'emails' o el nombre correcto de tu tabla
-    res.json(result.rows);
+    const result = await pool.query("SELECT * FROM pedidos");
+    const emails = result.rows;
+
+    // Obtener la línea de tiempo para cada pedido
+    for (let email of emails) {
+      const timelineResult = await pool.query(
+        "SELECT * FROM timeline WHERE pedido_id = $1 ORDER BY date ASC",
+        [email.id]
+      );
+      email.timeline = timelineResult.rows;
+    }
+
+    res.json(emails);  // Responder con los emails y sus timelines
   } catch (error) {
-    console.error("❌ Error al obtener los datos:", error);
-    res.status(500).json({ message: "Error en el servidor" });
+    console.error("Error al obtener los emails:", error);
+    res.status(500).send("Error al obtener los emails");
   }
 });
