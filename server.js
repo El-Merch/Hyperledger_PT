@@ -86,3 +86,14 @@ app.post("/api/login", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
 });
+
+// 🔹 Obtener lista de emails
+app.get("/api/emails", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM pedidos"); // Asegúrate de que la tabla se llama 'emails' o el nombre correcto de tu tabla
+    res.json(result.rows);
+  } catch (error) {
+    console.error("❌ Error al obtener los datos:", error);
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+});

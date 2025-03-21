@@ -7,7 +7,7 @@ function EmailTable() {
   const [selectedEmail, setSelectedEmail] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/emails")
+    fetch("http://localhost:5001/api/emails")
       .then((response) => response.json())
       .then((data) => setEmails(data))
       .catch((error) => console.error("Error al obtener los emails:", error));
@@ -38,7 +38,7 @@ function EmailTable() {
             {emails.map((email, index) => (
               <tr key={index} className="border-b">
                 <td className="p-2 whitespace-nowrap">{email.remitente}</td>
-                <td className="p-2 whitespace-nowrap">{email.desc}</td>
+                <td className="p-2 whitespace-nowrap">{email.descripcion}</td>
                 <td className={`p-2 font-semibold whitespace-nowrap ${
                   email.estado === "Verificando..." ? "text-yellow-500" :
                   email.estado === "Procesado" ? "text-green-500" :
