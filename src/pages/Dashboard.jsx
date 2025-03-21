@@ -3,19 +3,25 @@ import StatCard from "../components/StatCard";
 import EmailTable from "../components/EmailTable";
 import { InteractiveHoverButton } from "../components/magicui/interactive-hover-button";
 
-function Dashboard() {
-    const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
+const Dashboard = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    console.log("Contenido de localStorage:", storedUser); // 👉 Verifica qué se está cargando
+
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  // 👉 Si `user` aún no está cargado, muestra un loader temporal
+  if (!user) return <h1 className="text-3xl font-bold">Cargando...</h1>;
 
     return (
       <div className="p-6 flex-1">
-        <h1 className="text-3xl font-bold">Bienvenido, {user ? user.usuario : "Usuario"}</h1>
+         Bienvenido, {user.username}
 
         <div className="mt-4  flex space-x-2">
         <InteractiveHoverButton size="sm">Filtro 1</InteractiveHoverButton>

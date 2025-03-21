@@ -73,7 +73,7 @@ app.post("/api/login", async (req, res) => {
       user: { 
         id: user.id, 
         username: user.username, 
-        fullName: user.nombre_usuario // Asegurar que se retorne el nombre_usuario
+        nombre_usuario: user.nombre_usuario // Asegurar que se retorne el nombre_usuario
       } 
     });
   } catch (error) {
@@ -108,3 +108,4 @@ app.get("/api/emails", async (req, res) => {
     res.status(500).send("Error al obtener los emails");
   }
 });
+

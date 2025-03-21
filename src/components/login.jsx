@@ -22,7 +22,11 @@ const Login = () => {
       if (!response.ok) throw new Error(data.message);
 
       localStorage.setItem("token", data.token);
-      login(data.user.username, data.user.fullName, data.token);
+      login(data.user.username, data.user.nombre_usuario, data.token);
+      localStorage.setItem("user", JSON.stringify({
+        username: data.user.username,
+        nombre_usuario: data.user.nombre_usuario // Guardar nombre completo
+      }));
 
     } catch (error) {
       alert(error.message);
