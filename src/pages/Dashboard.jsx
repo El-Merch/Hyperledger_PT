@@ -1,11 +1,21 @@
+import React, { useState, useEffect } from "react";
 import StatCard from "../components/StatCard";
 import EmailTable from "../components/EmailTable";
 import { InteractiveHoverButton } from "../components/magicui/interactive-hover-button";
 
 function Dashboard() {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
     return (
       <div className="p-6 flex-1">
-        <h1 className="text-3xl font-bold">Bienvenido, Francisco</h1>
+        <h1 className="text-3xl font-bold">Bienvenido, {user ? user.usuario : "Usuario"}</h1>
 
         <div className="mt-4  flex space-x-2">
         <InteractiveHoverButton size="sm">Filtro 1</InteractiveHoverButton>
@@ -29,7 +39,5 @@ function Dashboard() {
       </div>
     );
   }
-  
-  
 
 export default Dashboard;
