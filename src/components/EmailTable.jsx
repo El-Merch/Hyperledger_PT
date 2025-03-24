@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { format } from "date-fns";  // Importar la función format de date-fns
 import Modal from "./Modal_view"; // Importar el componente Modal
 
 function EmailTable() {
@@ -47,7 +48,9 @@ function EmailTable() {
                 }`}>
                   {email.estado}
               </td>
-                <td className="p-2 whitespace-nowrap">{email.fecha_entrada}</td>
+                <td className="p-2 whitespace-nowrap">
+                  {email.fecha_entrada ? format(new Date(email.fecha_entrada), 'dd/MM/yyyy HH:mm') : 'Fecha no disponible'}
+                </td>
                 <td className="p-2 flex gap-2">
                   <button
                     onClick={() => {

@@ -1,4 +1,5 @@
 import React from "react";
+import { format } from "date-fns"; 
 
 const Timeline = ({ timeline }) => {
   return (
@@ -15,7 +16,10 @@ const Timeline = ({ timeline }) => {
             {/* Contenido de la Línea de Tiempo */}
             <div className="flex-1">
               <div className="text-sm font-semibold">{event.label}</div>
-              <div className="text-xs text-gray-500">{event.date}</div>
+              <div className="text-xs text-gray-500">
+              {event.date ? format(new Date(event.date), 'dd/MM/yyyy HH:mm') : 'Fecha no disponible'}
+
+              </div>
             </div>
 
             {/* Punto de la Línea de Tiempo */}

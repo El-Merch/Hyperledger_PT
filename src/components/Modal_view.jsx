@@ -1,5 +1,7 @@
 import React from "react";
+import { format, setWeek } from "date-fns";
 import Timeline from "./Timeline"; // Asegúrate de importar el componente Timeline
+
 
 const Modal = ({ isOpen, onClose, selectedEmail }) => {
   if (!isOpen) return null;
@@ -17,7 +19,10 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
         <p><strong>Remitente:</strong> {selectedEmail.remitente}</p>
         <p><strong>Descripción:</strong> {selectedEmail.desc}</p>
         <p><strong>Estado:</strong> {selectedEmail.estado}</p>
-        <p><strong>Fecha de Entrada:</strong> {selectedEmail.fecha_entrada}</p>
+        <p>
+          <strong>Fecha de Entrada:</strong> 
+          {selectedEmail.fecha_entrada ? format(new Date(selectedEmail.fecha_entrada), 'dd/MM/yyyy HH:mm') : 'Fecha no disponible'}
+        </p>
 
         {/* Agregar la Timeline en el modal */}
         <h3 className="mt-6 text-lg font-semibold">Línea de Tiempo</h3>
