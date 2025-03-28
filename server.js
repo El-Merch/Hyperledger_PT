@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import pkg from "pg";
 import jwt from "jsonwebtoken";
+import multer from "multer";
+import path from "path";
 
 const { Pool } = pkg;
 const app = express();
@@ -109,3 +111,36 @@ app.get("/api/emails", async (req, res) => {
   }
 });
 
+// Configuración de almacenamiento con multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Define la carpeta 'uploads' para almacenar los archivos
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname); // Obtener extensión de archivo
+    cb(null, Date.now() + ext); // Asignar un nombre único a los archivos
+  }
+});
+
+const upload = multer({ storage });
+
+// Endpoint para manejar la carga de los archivos XML y PDF
+app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }]), async (req, res) => {
+  try {
+    const { xml, pdf } = req.files;
+
+    // Verificar si ambos archivos fueron subidos
+    if (!xml || !pdf) {
+      return res.status(400).json({ message: "Ambos archivos son requeridos (XML y PDF)." });
+    }
+
+    // Aquí puedes guardar los archivos en tu base de datos o realizar alguna otra acción
+    console.log("Archivos subidos correctamente:", xml[0].path, pdf[0].path);
+
+    // Responder si la carga fue exitosa
+    res.json({ success: true, message: "Archivos subidos correctamente." });
+  } catch (error) {
+    console.error("Error al subir los archivos:", error);
+    res.status(500).json({ message: "Error al subir los archivos." });
+  }
+});
