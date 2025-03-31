@@ -324,7 +324,43 @@ button.delete:focus-visible {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
+#boton_xml_no_seleccionado {
+  border: 0px solid transparent;
+  background-color: #369484;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#boton_xml_no_seleccionado:hover {
+  background-color: #62cfbd;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
 #boton_pdf{
+  border: 0px solid transparent;
+  background-color: #21991c;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#boton_pdf:hover {
+  background-color: #2cc527;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#boton_pdf_no_seleccionado{
   border: 0px solid transparent;
   background-color: #7b1010;
   color: white;
@@ -336,8 +372,26 @@ button.delete:focus-visible {
   transition: all 0.3s ease-in-out;
 }
 
-#boton_pdf:hover {
+#boton_pdf_no_seleccionado:hover {
   background-color: #b83333;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#boton_subir_archivos {
+  border: 0px solid transparent;
+  background-color: rgb(56, 97, 219);
+  color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#boton_subir_archivos:hover {
+  background-color: rgb(94, 123, 208);
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }

@@ -6,6 +6,8 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
   const [xmlFile, setXmlFile] = useState(null);
   const [pdfFile, setPdfFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [isXmlSelected, setIsXmlSelected] = useState(false); // Estado para XML
+  const [isPdfSelected, setIsPdfSelected] = useState(false); // Estado para PDF
 
   if (!isOpen) return null;
 
@@ -14,8 +16,10 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
     const file = e.target.files[0];
     if (type === "xml") {
       setXmlFile(file);
+      setIsXmlSelected(true); // Cuando se selecciona el archivo XML
     } else if (type === "pdf") {
       setPdfFile(file);
+      setIsPdfSelected(true); // Cuando se selecciona el archivo PDF
     }
   };
 
@@ -84,8 +88,7 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
         {/* Si el estado es "Esperando Documentos", mostrar el botón de carga de archivos */}
         {selectedEmail.estado === "Esperando Documentos" && (
         <div className="mb-4" id="contenedor_archivos">
-
-          
+          {/* Botón para seleccionar archivo XML */}
           <input
             id="xml"
             type="file"
@@ -93,16 +96,16 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
             onChange={(e) => handleFileChange(e, "xml")}
             className="hidden"
           />
-          
           <button
             type="button"
-            className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+            id={`${isXmlSelected ? 'boton_xml' : 'boton_xml_no_seleccionado'}`} // Cambia el id aquí
+            className="w-full py-2 px-4 rounded-md transition"
             onClick={() => document.getElementById('xml').click()}
-            id="boton_xml"
           >
-            Elegir archivo XML
+            {isXmlSelected ? "Archivo XML Seleccionado" : "Elegir archivo XML"}
           </button>
 
+          {/* Botón para seleccionar archivo PDF */}
           <input
             id="pdf"
             type="file"
@@ -112,12 +115,24 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
           />
           <button
             type="button"
-            className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+            id={`${isPdfSelected ? 'boton_pdf' : 'boton_pdf_no_seleccionado'}`} // Cambia el id aquí
+            className="w-full py-2 px-4 rounded-md transition"
             onClick={() => document.getElementById('pdf').click()}
-            id="boton_pdf"
           >
-            Elegir archivo PDF
+            {isPdfSelected ? "Archivo PDF Seleccionado" : "Elegir archivo PDF"}
           </button>
+
+
+          {/* Botón para subir los archivos */}
+          {xmlFile && pdfFile && (
+            <button
+              className="mt-4 w-full py-2 px-4 text-white rounded-md transition bg-green-500 hover:bg-green-600"
+              id="boton_subir_archivos"
+              onClick={handleUpload}
+            >
+              Subir Archivos
+            </button>
+          )}
         </div>
         )}
       </div>
