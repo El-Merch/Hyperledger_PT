@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Timeline from "./Timeline"; // Asegúrate de importar el componente Timeline
 import { format } from "date-fns";
 
-const Modal = ({ isOpen, onClose, selectedEmail }) => {
+const Modal = ({ isOpen, onClose, selectedEmail, fetchEmails }) => {
   const [xmlFile, setXmlFile] = useState(null);
   const [pdfFile, setPdfFile] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -38,7 +38,7 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
 
     try {
       // Aquí harás la solicitud al backend para subir los archivos
-      const response = await fetch("http://localhost:5000/api/uploadDocuments", {
+      const response = await fetch("http://localhost:5001/api/uploadDocuments", {
         method: "POST",
         body: formData,
       });
@@ -46,6 +46,7 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
       const result = await response.json();
       if (result.success) {
         alert("Archivos subidos correctamente.");
+        await fetchEmails(); // Recargar los emails después de subir los archivos
         onClose(); // Cerrar modal si la carga fue exitosa
       } else {
         alert("Error al subir los archivos.");
@@ -121,7 +122,6 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
           >
             {isPdfSelected ? "Archivo PDF Seleccionado" : "Elegir archivo PDF"}
           </button>
-
 
           {/* Botón para subir los archivos */}
           {xmlFile && pdfFile && (

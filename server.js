@@ -122,7 +122,17 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage });
+// Filtro de archivos: solo permitir XML y PDF
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = ['application/pdf', 'text/xml']; // Tipos MIME permitidos (PDF y XML)
+  if (!allowedTypes.includes(file.mimetype)) {
+    return cb(new Error('Tipo de archivo no permitido'), false); // Error si el archivo no es XML ni PDF
+  }
+  cb(null, true); // Permitir el archivo si es válido
+};
+
+// Inicializar multer con el almacenamiento y el filtro de archivos
+const upload = multer({ storage, fileFilter });
 
 // Endpoint para manejar la carga de los archivos XML y PDF
 app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }]), async (req, res) => {
@@ -134,13 +144,42 @@ app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }
       return res.status(400).json({ message: "Ambos archivos son requeridos (XML y PDF)." });
     }
 
-    // Aquí puedes guardar los archivos en tu base de datos o realizar alguna otra acción
+    // Guardar las rutas de los archivos en la base de datos
+    const xmlPath = xml[0].path;
+    const pdfPath = pdf[0].path;
+    const emailId = req.body.emailId;
+
+    // Generar el timestamp antes de hacer las consultas
+    const timestamp = new Date();
+
+    // Realiza una consulta para guardar las rutas en tu base de datos
+    await pool.query(
+      "UPDATE pedidos SET xml_path = $1, pdf_path = $2, estado = 'Documentos Recibidos' WHERE id = $3",
+      [xmlPath, pdfPath, emailId]
+    );
+
+    // Actualizar el estado de la timeline si está en "in-progress"
+    await pool.query(
+      "UPDATE timeline SET status = 'completed' WHERE pedido_id = $1 AND status = 'in-progress'",
+      [emailId]
+    );
+
+    // Agregar entrada en la tabla timeline
+    await pool.query(
+      "INSERT INTO timeline (pedido_id, label, date, status) VALUES ($1, 'Documentos Recibidos', $2, 'completed')",
+      [emailId, timestamp]
+    );
+
     console.log("Archivos subidos correctamente:", xml[0].path, pdf[0].path);
 
     // Responder si la carga fue exitosa
     res.json({ success: true, message: "Archivos subidos correctamente." });
   } catch (error) {
     console.error("Error al subir los archivos:", error);
+    
+    if (error.message === 'Tipo de archivo no permitido') {
+      return res.status(400).json({ message: "Solo se permiten archivos PDF y XML." });
+    }
     res.status(500).json({ message: "Error al subir los archivos." });
   }
 });

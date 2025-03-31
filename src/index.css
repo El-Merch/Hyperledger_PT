@@ -308,7 +308,7 @@ button.delete:focus-visible {
 
 #boton_xml {
   border: 0px solid transparent;
-  background-color: #237821;
+  background-color: #21991c;
   color: white;
   border-radius: 8px;
   padding: 10px 20px;
@@ -319,7 +319,7 @@ button.delete:focus-visible {
 }
 
 #boton_xml:hover {
-  background-color: #34b532;
+  background-color: #2cc527;
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }

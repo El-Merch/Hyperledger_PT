@@ -8,11 +8,18 @@ function EmailTable() {
   const [selectedEmail, setSelectedEmail] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/emails")
-      .then((response) => response.json())
-      .then((data) => setEmails(data))
-      .catch((error) => console.error("Error al obtener los emails:", error));
+    fetchEmails();  // Llamar a la función para obtener los emails cuando el componente se monta
   }, []);
+
+  const fetchEmails = async () => {
+    try {
+      const response = await fetch("http://localhost:5001/api/emails");
+      const data = await response.json();
+      setEmails(data);  // Actualizar el estado de emails con los datos obtenidos
+    } catch (error) {
+      console.error("Error al obtener los emails:", error);
+    }
+  };
 
   return (
     <div>
@@ -21,6 +28,7 @@ function EmailTable() {
         isOpen={modalOpen} 
         onClose={() => setModalOpen(false)} 
         selectedEmail={selectedEmail} 
+        fetchEmails={fetchEmails}  // Pasamos fetchEmails como prop al Modal
       />
 
       {/* Tabla de Emails */}
@@ -47,7 +55,7 @@ function EmailTable() {
                   "text-red-500"
                 }`}>
                   {email.estado}
-              </td>
+                </td>
                 <td className="p-2 whitespace-nowrap">
                   {email.fecha_entrada ? format(new Date(email.fecha_entrada), 'dd/MM/yyyy HH:mm') : 'Fecha no disponible'}
                 </td>
