@@ -154,7 +154,7 @@ app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }
 
     // Realiza una consulta para guardar las rutas en tu base de datos
     await pool.query(
-      "UPDATE pedidos SET xml_path = $1, pdf_path = $2, estado = 'Documentos Recibidos' WHERE id = $3",
+      "UPDATE pedidos SET xml_path = $1, pdf_path = $2, estado = 'Procesando...' WHERE id = $3",
       [xmlPath, pdfPath, emailId]
     );
 
@@ -167,6 +167,12 @@ app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }
     // Agregar entrada en la tabla timeline
     await pool.query(
       "INSERT INTO timeline (pedido_id, label, date, status) VALUES ($1, 'Documentos Recibidos', $2, 'completed')",
+      [emailId, timestamp]
+    );
+
+    // Agregar entrada en la tabla timeline
+    await pool.query(
+      "INSERT INTO timeline (pedido_id, label, date, status) VALUES ($1, 'Documentos procesados', $2, 'in-progress')",
       [emailId, timestamp]
     );
 
