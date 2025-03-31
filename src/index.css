@@ -304,3 +304,40 @@ button.delete:focus-visible {
   height: 100%;
   gap: 20px; /* Espaciado entre los items */
 }
+
+
+#boton_xml {
+  border: 0px solid transparent;
+  background-color: #237821;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#boton_xml:hover {
+  background-color: #34b532;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#boton_pdf{
+  border: 0px solid transparent;
+  background-color: #7b1010;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#boton_pdf:hover {
+  background-color: #b83333;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}

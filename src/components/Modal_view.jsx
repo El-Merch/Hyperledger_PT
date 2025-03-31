@@ -98,6 +98,7 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
             type="button"
             className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
             onClick={() => document.getElementById('xml').click()}
+            id="boton_xml"
           >
             Elegir archivo XML
           </button>
@@ -113,6 +114,7 @@ const Modal = ({ isOpen, onClose, selectedEmail }) => {
             type="button"
             className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
             onClick={() => document.getElementById('pdf').click()}
+            id="boton_pdf"
           >
             Elegir archivo PDF
           </button>
