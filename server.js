@@ -179,7 +179,7 @@ app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }
 
     // Realiza una consulta para guardar las rutas en tu base de datos
     await pool.query(
-      "UPDATE pedidos SET xml_path = $1, pdf_path = $2, pdf_hash = $3, estado = 'Documentos Recibidos' WHERE id = $4",
+      "UPDATE pedidos SET xml_path = $1, pdf_path = $2, pdf_hash = $3, estado = 'Procesando...' WHERE id = $4",
       [xmlPath, pdfPath, pdfHash, emailId]
     );
 
