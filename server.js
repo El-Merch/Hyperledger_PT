@@ -1,3 +1,4 @@
+import fs from "fs";
 import "dotenv/config.js";
 import express from "express";
 import cors from "cors";
@@ -5,6 +6,7 @@ import pkg from "pg";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
+import crypto from "crypto";
 
 const { Pool } = pkg;
 const app = express();
@@ -134,6 +136,25 @@ const fileFilter = (req, file, cb) => {
 // Inicializar multer con el almacenamiento y el filtro de archivos
 const upload = multer({ storage, fileFilter });
 
+// Función para generar el hash MD5
+const generateMD5Hash = (filePath) => {
+  return new Promise((resolve, reject) => {
+    const hash = crypto.createHash('md5'); // Crear un hash MD5
+    const stream = fs.createReadStream(filePath); // Leer el archivo
+
+    stream.on('data', (chunk) => {
+      hash.update(chunk); // Actualizar el hash con cada trozo de datos
+    });
+
+    stream.on('end', () => {
+      resolve(hash.digest('hex')); // Cuando termine, devuelve el hash
+    });
+
+    stream.on('error', (error) => {
+      reject(error); // Maneja errores de lectura del archivo
+    });
+  });
+};
 // Endpoint para manejar la carga de los archivos XML y PDF
 app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }]), async (req, res) => {
   try {
@@ -149,13 +170,17 @@ app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }
     const pdfPath = pdf[0].path;
     const emailId = req.body.emailId;
 
+
+    // Generar el hash MD5 del archivo PDF
+    const pdfHash = await generateMD5Hash(pdfPath);
+    
     // Generar el timestamp antes de hacer las consultas
     const timestamp = new Date();
 
     // Realiza una consulta para guardar las rutas en tu base de datos
     await pool.query(
-      "UPDATE pedidos SET xml_path = $1, pdf_path = $2, estado = 'Procesando...' WHERE id = $3",
-      [xmlPath, pdfPath, emailId]
+      "UPDATE pedidos SET xml_path = $1, pdf_path = $2, pdf_hash = $3, estado = 'Documentos Recibidos' WHERE id = $4",
+      [xmlPath, pdfPath, pdfHash, emailId]
     );
 
     // Actualizar el estado de la timeline si está en "in-progress"
