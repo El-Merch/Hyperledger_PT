@@ -129,8 +129,13 @@ f3f4a7e474bb   hyperledger/fabric-peer:latest      "peer node start"   4 minutes
 
 ---
 
-### Next Steps
+### 4. Using Node.js
+
+Install thius node libraries on the main folder 
+
+```bash
+npm install fabric-network fabric-ca-client @grpc/grpc-js
+```
 
 - **Develop the React app**: You can now continue developing your front-end React application and interact with the Hyperledger network.
 - **Integrate Hyperledger calls**: You can send transactions to the blockchain network using Hyperledger Fabric's SDKs or by interacting with the network via APIs.
-
