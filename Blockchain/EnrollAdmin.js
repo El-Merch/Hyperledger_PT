@@ -1,9 +1,11 @@
-'use strict';
+import { FabricCAServices } from 'fabric-ca-client';
+import { Wallets } from 'fabric-network';
+import fs from 'fs';
+import path from 'path';
+import dotenv from 'dotenv';
 
-const FabricCAServices = require('fabric-ca-client');
-const { Wallets } = require('fabric-network');
-const fs = require('fs');
-const path = require('path');
+// Cargar las variables de entorno
+dotenv.config();
 
 const main = async () => {
     try {
@@ -21,7 +23,7 @@ const main = async () => {
             return;
         }
 
-        const enrollment = await ca.enroll({ enrollmentID: 'admin', enrollmentSecret: 'adminpw' });
+        const enrollment = await ca.enroll({ enrollmentID: 'admin', enrollmentSecret: process.env.ADMIN_PASSWORD });
         const identity = {
             credentials: {
                 certificate: enrollment.certificate,

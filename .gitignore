@@ -27,3 +27,4 @@ dist-ssr
 # Archivo Uploads
 
 *uploads
+.env
