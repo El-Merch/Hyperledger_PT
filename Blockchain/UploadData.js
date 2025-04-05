@@ -1,17 +1,23 @@
-'use strict';
+import { Gateway, Wallets } from 'fabric-network';
+import path from 'path';
+import fs from 'fs';
+import pg from 'pg';  // Cambio en la importación
+import { fileURLToPath } from 'url';
 
-const { Gateway, Wallets } = require('fabric-network');
-const path = require('path');
-const fs = require('fs');
-const { Client } = require('pg');  // Usamos el cliente de PostgreSQL
+// Obtener __dirname en ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Extraer Client del módulo pg
+const { Client } = pg;
 
 const main = async () => {
     try {
         // Conexión a la base de datos PostgreSQL
         const db = new Client({
             host: 'host.docker.internal',
-            user: '',  // Reemplaza con tu usuario de PostgreSQL
-            password: '',  // Reemplaza con tu contraseña de PostgreSQL
+            user: 'test_admin',  // Reemplaza con tu usuario de PostgreSQL
+            password: 'admin',  // Reemplaza con tu contraseña de PostgreSQL
             database: 'postgres',  // Nombre de la base de datos
             port: 5432,  // Puerto de PostgreSQL
         });
