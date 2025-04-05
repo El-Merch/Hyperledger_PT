@@ -3,19 +3,22 @@
 const { Gateway, Wallets } = require('fabric-network');
 const path = require('path');
 const fs = require('fs');
-const mysql = require('mysql2/promise');
+const { Client } = require('pg');  // Usamos el cliente de PostgreSQL
 
 const main = async () => {
     try {
-        // Conexión a la base de datos local
-        const db = await mysql.createConnection({
+        // Conexión a la base de datos PostgreSQL
+        const db = new Client({
             host: 'host.docker.internal',
-            user: 'root',
-            password: '',
-            database: 'green_chain'
-        }); 
+            user: '',  // Reemplaza con tu usuario de PostgreSQL
+            password: '',  // Reemplaza con tu contraseña de PostgreSQL
+            database: 'postgres',  // Nombre de la base de datos
+            port: 5432,  // Puerto de PostgreSQL
+        });
 
-        console.log('Conexión a la base de datos exitosa.');
+        await db.connect();  // Conexión a PostgreSQL
+
+        console.log('Conexión a la base de datos PostgreSQL exitosa.');
 
         // Configuración de Hyperledger Fabric
         const ccpPath = path.resolve(__dirname, '../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json');
@@ -35,30 +38,29 @@ const main = async () => {
 
         console.log('Conectado a la red de Hyperledger Fabric.');
 
-        // Recuperar datos de la base de datos
-        const [orders] = await db.query('SELECT id, customer_id, total_price, status FROM primaryorder;');
+        // Recuperar datos de la base de datos PostgreSQL desde la tabla 'pedidos'
+        const res = await db.query('SELECT id, pdf_hash FROM pedidos WHERE pdf_hash IS NOT NULL;');
+        const orders = res.rows;  // Los resultados estarán en 'rows'
 
-        // Subir datos al ledger
+        // Subir solo id y pdf_hash al ledger
         for (const order of orders) {
             try {
                 console.log(`Subiendo pedido con ID: ${order.id}`);
                 await contract.submitTransaction(
-                    'CreateOrder',
-                    `order${order.id}`,
-                    `${order.customer_id}`,
-                    `${order.total_price}`,
-                    `${order.status}`
+                    'CreateOrder',  // Nombre de la función en el contrato
+                    `order${order.id}`,  // ID del pedido (prefijado con 'order')
+                    `${order.pdf_hash}`  // Guardamos solo el pdf_hash
                 );
                 console.log(`Pedido ${order.id} subido exitosamente.`);
             } catch (err) {
                 console.error(`Error subiendo el pedido ${order.id}: ${err.message}`);
             }
-        }        
+        }
 
         console.log('Todos los pedidos han sido subidos al ledger.');
 
         await gateway.disconnect();
-        await db.end();
+        await db.end();  // Cerrar la conexión de PostgreSQL
     } catch (error) {
         console.error(`Error: ${error.message}`);
     }
