@@ -54,7 +54,7 @@ const main = async () => {
                 console.log(`Subiendo pedido con ID: ${order.id}`);
                 await contract.submitTransaction(
                     'CreateOrder',  // Nombre de la función en el contrato
-                    `order${order.id}`,  // ID del pedido (prefijado con 'order')
+                    `${order.id}`,  // ID del pedido (prefijado con 'order')
                     `${order.pdf_hash}`  // Guardamos solo el pdf_hash
                 );
                 console.log(`Pedido ${order.id} subido exitosamente.`);
