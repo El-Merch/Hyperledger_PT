@@ -1,9 +1,15 @@
-import { FabricCAServices } from 'fabric-ca-client';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import path from 'path';
+import pkg from 'fabric-ca-client';
+const FabricCAServices = pkg.default || pkg;  // Esto maneja ambas formas de exportación
 import { Wallets } from 'fabric-network';
 import fs from 'fs';
-import path from 'path';
 import dotenv from 'dotenv';
 
+// Obtener la ruta del directorio (equivalente a `__dirname`)
+const __filename = fileURLToPath(import.meta.url);  // Convertir import.meta.url a una ruta de archivo
+const __dirname = dirname(__filename);  // Obtener el directorio
 
 // Cargar las variables de entorno
 dotenv.config();
@@ -14,7 +20,7 @@ const main = async () => {
         const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
         const caInfo = ccp.certificateAuthorities['ca.org1.example.com'];
-        const ca = new FabricCAServices(caInfo.url);
+        const ca = new FabricCAServices(caInfo.url);  // Crear instancia correctamente
 
         const wallet = await Wallets.newFileSystemWallet('./wallet');
 
