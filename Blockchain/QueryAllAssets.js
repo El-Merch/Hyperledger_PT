@@ -1,8 +1,11 @@
-'use strict';
+import { Gateway, Wallets } from 'fabric-network';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
-const { Gateway, Wallets } = require('fabric-network');
-const path = require('path');
-const fs = require('fs');
+// Obtener __dirname en ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const main = async () => {
     try {
@@ -31,6 +34,7 @@ const main = async () => {
         await gateway.disconnect();
     } catch (error) {
         console.error(`Error: ${error.message}`);
+        if (error.stack) console.error(error.stack); // Mejor traza de errores
     }
 };
 
