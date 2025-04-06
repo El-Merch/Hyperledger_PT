@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
 import crypto from "crypto";
+import pkg from 'fabric-network';
+const { FileSystemWallet, Gateway } = pkg;
 
 const { Pool } = pkg;
 const app = express();
@@ -195,6 +197,8 @@ app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }
       [emailId, timestamp]
     );
 
+    await submitToBlockchain(emailId, pdfHash);
+
     // Agregar entrada en la tabla timeline
     await pool.query(
       "INSERT INTO timeline (pedido_id, label, date, status) VALUES ($1, 'Documentos procesados', $2, 'in-progress')",
@@ -214,3 +218,27 @@ app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }
     res.status(500).json({ message: "Error al subir los archivos." });
   }
 });
+
+// Función para interactuar con Hyperledger Fabric y subir datos
+const submitToBlockchain = async (emailId, pdfHash) => {
+  try {
+    // Cargar configuración de red
+    const ccpPath = path.resolve(__dirname, '../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json');
+    const wallet = await new FileSystemWallet('./wallet');
+    const gateway = new Gateway();
+
+    await gateway.connect(ccpPath, { wallet, identity: 'admin', discovery: { enabled: true, asLocalhost: true } });
+
+    const network = await gateway.getNetwork('mychannel');
+    const contract = network.getContract('mychaincode', 'mycontract');
+
+    // Llamar a la función de la cadena de bloques para registrar el pedido
+    await contract.submitTransaction('storePdfHash', emailId, pdfHash);
+
+    console.log('Hash del PDF registrado correctamente en la blockchain');
+    await gateway.disconnect();
+  } catch (error) {
+    console.error('Error al registrar el hash en la blockchain:', error);
+    throw new Error('Error al registrar el hash en la blockchain');
+  }
+};
