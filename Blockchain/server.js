@@ -229,8 +229,8 @@ app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }
 const submitToBlockchain = async (emailId, pdfHash) => {
   try {
     // Cargar configuración de red
-    const ccpPath = path.resolve(__dirname, './fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json');
-    const wallet = await Wallets.newFileSystemWallet('./Blockchain/wallet'); // Usando 'Wallets'
+    const ccpPath = path.resolve(__dirname, '../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json');
+    const wallet = await Wallets.newFileSystemWallet('./wallet'); // Usando 'Wallets'
     const gateway = new Gateway();
 
     await gateway.connect(ccpPath, { wallet, identity: 'admin', discovery: { enabled: true, asLocalhost: true } });
