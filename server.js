@@ -7,8 +7,14 @@ import jwt from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
 import crypto from "crypto";
-import pkg from 'fabric-network';
-const { FileSystemWallet, Gateway } = pkg;
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { Gateway, Wallets } from 'fabric-network';
+
+// Obtener el __dirname equivalente
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 const { Pool } = pkg;
 const app = express();
@@ -223,8 +229,8 @@ app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }
 const submitToBlockchain = async (emailId, pdfHash) => {
   try {
     // Cargar configuración de red
-    const ccpPath = path.resolve(__dirname, '../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json');
-    const wallet = await new FileSystemWallet('./wallet');
+    const ccpPath = path.resolve(__dirname, './fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json');
+    const wallet = await Wallets.newFileSystemWallet('./Blockchain/wallet'); // Usando 'Wallets'
     const gateway = new Gateway();
 
     await gateway.connect(ccpPath, { wallet, identity: 'admin', discovery: { enabled: true, asLocalhost: true } });
