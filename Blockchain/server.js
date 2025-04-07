@@ -31,12 +31,17 @@ app.use(express.json());
 // Configurar conexión con PostgreSQL
 const pool = new Pool({
   user: process.env.DB_USER || "postgres",
-  host: process.env.DB_HOST || "localhost",
+  host: process.env.DB_HOST || "your-rds-endpoint",
   database: process.env.DB_NAME || "postgres",
   password: process.env.DB_PASS || "postgres",
   port: process.env.DB_PORT || 5432,
+  ssl: {
+    rejectUnauthorized: false,  // Rechazar conexiones con certificados no autorizados (útil para desarrollo)
+    ca: fs.readFileSync('certs/us-east-2-bundle.pem'),  // Ruta al archivo .pem
+  }
 });
 
+export default pool;
 // 🔹 Ruta de prueba
 app.get("/", (req, res) => {
   res.send("✅ API funcionando 🚀");

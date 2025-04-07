@@ -3,7 +3,7 @@ import { useAuth, AuthProvider } from "./context/AuthContext"; // Asegúrate de 
 import Dashboard from "./pages/Dashboard";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
-import Login from "./components/Login";
+import Login from "./components/login";
 import "./index.css";
 
 // Componente para proteger rutas privadas

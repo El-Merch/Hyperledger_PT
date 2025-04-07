@@ -1,4 +1,5 @@
 import { Gateway, Wallets } from 'fabric-network';
+import "dotenv/config.js";
 import path from 'path';
 import fs from 'fs';
 import pg from 'pg';  // Cambio en la importación
@@ -15,11 +16,11 @@ const main = async () => {
     try {
         // Conexión a la base de datos PostgreSQL
         const db = new Client({
-            host: 'host.docker.internal',
-            user: 'test_admin',  // Reemplaza con tu usuario de PostgreSQL
-            password: 'admin',  // Reemplaza con tu contraseña de PostgreSQL
-            database: 'postgres',  // Nombre de la base de datos
-            port: 5432,  // Puerto de PostgreSQL
+            user: process.env.DB_USER || "postgres",
+            host: process.env.DB_HOST || "localhost",
+            database: process.env.DB_NAME || "postgres",
+            password: process.env.DB_PASS || "postgres",
+            port: process.env.DB_PORT || 5432,
         });
 
         await db.connect();  // Conexión a PostgreSQL
