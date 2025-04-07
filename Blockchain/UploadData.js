@@ -17,10 +17,14 @@ const main = async () => {
         // Conexión a la base de datos PostgreSQL
         const db = new Client({
             user: process.env.DB_USER || "postgres",
-            host: process.env.DB_HOST || "localhost",
+            host: process.env.DB_HOST || "your-rds-endpoint",
             database: process.env.DB_NAME || "postgres",
             password: process.env.DB_PASS || "postgres",
             port: process.env.DB_PORT || 5432,
+            ssl: {
+                rejectUnauthorized: false,  // Rechazar conexiones con certificados no autorizados (útil para desarrollo)
+                ca: fs.readFileSync('certs/us-east-2-bundle.pem'),  // Ruta al archivo .pem
+            }
         });
 
         await db.connect();  // Conexión a PostgreSQL
@@ -46,7 +50,7 @@ const main = async () => {
         console.log('Conectado a la red de Hyperledger Fabric.');
 
         // Recuperar datos de la base de datos PostgreSQL desde la tabla 'pedidos'
-        const res = await db.query('SELECT id, pdf_hash FROM pedidos WHERE pdf_hash IS NOT NULL;');
+        const res = await db.query('SELECT id, pdf_hash FROM pedidos WHERE pdf_hash IS NOT NULL OR "";');
         const orders = res.rows;  // Los resultados estarán en 'rows'
 
         // Subir solo id y pdf_hash al ledger

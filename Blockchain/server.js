@@ -212,7 +212,7 @@ app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }
 
     // Agregar entrada en la tabla timeline
     await pool.query(
-      "INSERT INTO timeline (pedido_id, label, date, status) VALUES ($1, 'Documentos procesados', $2, 'in-progress')",
+      "INSERT INTO timeline (pedido_id, label, date, status) VALUES ($1, 'Documentos procesados', $2, 'completed')",
       [emailId, timestamp]
     );
 
@@ -235,16 +235,27 @@ const submitToBlockchain = async (emailId, pdfHash) => {
   try {
     // Cargar configuración de red
     const ccpPath = path.resolve(__dirname, '../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json');
+    const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
+    
     const wallet = await Wallets.newFileSystemWallet('./wallet'); // Usando 'Wallets'
+    
     const gateway = new Gateway();
-
-    await gateway.connect(ccpPath, { wallet, identity: 'admin', discovery: { enabled: true, asLocalhost: true } });
+    await gateway.connect(ccp, { 
+      wallet,
+      identity: 'appUser',
+      discovery: { enabled: true, asLocalhost: true },
+    });
 
     const network = await gateway.getNetwork('mychannel');
-    const contract = network.getContract('mychaincode', 'mycontract');
+    const contract = network.getContract('basic');
 
+    
+    console.log('Conectado a la red de Hyperledger Fabric.');
+
+    console.log('Registrando hash en la blockchain...');
+    
     // Llamar a la función de la cadena de bloques para registrar el pedido
-    await contract.submitTransaction('storePdfHash', emailId, pdfHash);
+    await contract.submitTransaction('CreateOrder', emailId, pdfHash);
 
     console.log('Hash del PDF registrado correctamente en la blockchain');
     await gateway.disconnect();
