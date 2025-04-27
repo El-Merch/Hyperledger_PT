@@ -168,6 +168,7 @@ const generateMD5Hash = (filePath) => {
     });
   });
 };
+
 // Endpoint para manejar la carga de los archivos XML y PDF
 app.post("/api/uploadDocuments", upload.fields([{ name: "xml" }, { name: "pdf" }]), async (req, res) => {
   try {
