@@ -113,7 +113,7 @@ app.get("/api/emails", async (req, res) => {
     // Obtener la línea de tiempo para cada pedido
     for (let email of emails) {
       const timelineResult = await pool.query(
-        "SELECT * FROM timeline WHERE pedido_id = $1 ORDER BY date ASC",
+        "SELECT * FROM timeline JOIN pedidos ON pedidos.id = timeline.pedido_id WHERE pedido_id = $1 ORDER BY timeline.id",
         [email.id]
       );
       email.timeline = timelineResult.rows;

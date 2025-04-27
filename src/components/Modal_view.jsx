@@ -60,7 +60,7 @@ const Modal = ({ isOpen, onClose, selectedEmail, fetchEmails }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 backdrop-blur-sm z-50 transition-opacity duration-300 animate-fade-in">
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-opacity-50 backdrop-blur-sm z-50 transition-opacity duration-300 animate-fade-in">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96 transform transition-all duration-300 animate-slide-up relative">
         {/* Botón de Cerrar */}
         <button
@@ -135,7 +135,31 @@ const Modal = ({ isOpen, onClose, selectedEmail, fetchEmails }) => {
           )}
         </div>
         )}
+
+
       </div>
+        {/* Si el estado es "Procesado", agregar cuadro abajo */}
+          {selectedEmail.estado === "Procesado" && (
+          <div className="mt-6 p-4 bg-white rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold">Detalles del procesamiento</h3>
+            <p>Este pedido ya ha sido procesado correctamente.</p>
+
+            {/* Datos que provienen de la blockchain */}
+            <div className="mt-4 p-4 border bg-gray-50 border-gray-300 rounded-lg shadow-sm">
+              <h4 className="font-semibold text-gray-700">Datos en la Blockchain:</h4>
+              <p className="text-sm text-gray-600">Lo que hay actualmente en la blockchain sobre este pedido:</p>
+              <div className="mt-2 p-2 bg-blue-100 rounded-md border border-blue-300">
+                {/* Blurring part of the PDF hash */}
+                <p className="text-xs font-mono text-blue-600" style={{ userSelect: "none" }}>
+                  <span className="text-black">{selectedEmail.pdf_hash?.slice(0, selectedEmail.pdf_hash.length / 5)}</span>
+                  <span className="text-black opacity-50" style={{ filter: "blur(3px)" }}>
+                    {selectedEmail.pdf_hash?.slice(selectedEmail.pdf_hash.length / 5)}
+                  </span>
+                </p>
+            </div>
+          </div>
+        </div>
+        )}
     </div>
   );
 };
